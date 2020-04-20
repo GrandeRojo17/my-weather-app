@@ -1,0 +1,21 @@
+* {
+  font-family: "Overpass", sans-serif;
+}
+header, h1{font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+.padding {
+  padding: 10px;
+}
+ul {
+  background-color: rgb(233, 233, 233);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+/* #currentCityWeatherFacts , ul{
+   ; */
+}
+body {
+  margin: 0;
+}
