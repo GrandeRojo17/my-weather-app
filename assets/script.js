@@ -12,12 +12,19 @@ $(document).ready(function () {
   }
 
   $("#search-button").on("click", function () {
-    var searchTerm = $("#search-term").val();
-    console.log(searchTerm);
+    let searchTerm = $("#search-term").val();
+    console.log("We are searching for " + searchTerm);
+    searchWeather(searchTerm);
+  });
+
+  $("#city-btn").on("click", function () {
+    let searchTerm = $("#city-btn").text();
+    console.log("Gathering Weather data for " + searchTerm);
     searchWeather(searchTerm);
   });
 
   function searchWeather(searchTerm) {
+    //this is my current key
     var APIKey = "4283d387c93df34e548fe4d99a04d307";
     var queryURL =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -25,6 +32,8 @@ $(document).ready(function () {
       "&appid=" +
       APIKey +
       "&units=imperial";
+    // AJAX
+    //on launch it should automatically call once using the location of user.
     $.ajax({
       url: queryURL,
       method: "GET",
