@@ -1,7 +1,15 @@
 * {
   font-family: "Overpass", sans-serif;
 }
-header, h1{font-weight: bold;
+header {
+  height: 25vh;
+  background-color: rgb(7, 109, 109);
+  margin-bottom: 10px;
+}
+header,
+h1 {
+  font-size: 100px;
+  font-weight: bold;
   color: rgb(255, 255, 255);
 }
 .padding {
@@ -13,9 +21,20 @@ ul {
   margin: 0;
   padding: 0;
 }
+/* recently searched title */
+#rs-title{height: 45px;
+background-color: gray;
+color:whitesmoke;
+font-size: 25px;
+margin-bottom: 5px;
+}
 /* #currentCityWeatherFacts , ul{
    ; */
 /* } */
 body {
   margin: 0;
+}
+#forecast-card{
+
+  
 }
