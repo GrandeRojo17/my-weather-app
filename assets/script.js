@@ -70,7 +70,7 @@ $(document).ready(function () {
           .text("Wind: " + Math.round(res.wind.speed) + "MPH");
         var img = $("<img>").attr(
           "src",
-          "http://openweathermap.org/img/w/" + res.weather[0].icon + ".png"
+          "https://openweathermap.org/img/w/" + res.weather[0].icon + ".png"
         );
         // Merge everything to the page
         title.append(img);
@@ -87,7 +87,7 @@ $(document).ready(function () {
 
   function getUVIndex(lat, lon) {
     $.ajax({
-      url: `http://api.openweathermap.org/data/2.5/uvi?appid=4283d387c93df34e548fe4d99a04d307&lat=${lat}&lon=${lon}`,
+      url: `https://api.openweathermap.org/data/2.5/uvi?appid=4283d387c93df34e548fe4d99a04d307&lat=${lat}&lon=${lon}`,
       type: "GET",
       dataType: "json",
       success: function (res) {
@@ -112,7 +112,7 @@ $(document).ready(function () {
 function fiveDayForecast(searchTerm) {
   var APIKey = "4283d387c93df34e548fe4d99a04d307";
   // var queryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}`;
-  var queryURL2 = `http://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${APIKey}&units=imperial`;
+  var queryURL2 = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${APIKey}&units=imperial`;
   $.ajax({
     type: "GET",
     url: queryURL2,
@@ -136,9 +136,9 @@ function fiveDayForecast(searchTerm) {
 
           var img = $("<img>").attr(
             "src",
-            "http://openweathermap.org/img/w/" +
-              res.list[i].weather[0].icon +
-              ".png"
+            "https://openweathermap.org/img/w/" +
+            res.list[i].weather[0].icon +
+            ".png"
           );
 
           var p1 = $("<p>")

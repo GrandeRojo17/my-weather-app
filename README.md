@@ -17,7 +17,7 @@ Find weather data for whichever city you would like to search. Connected to the 
     * Tests
     * Questions
 
-<img src="assets/weatherDash_01.png"></img>
+<img src="assets/weatherDash_01.png" />
 
 # **Installation**
 
