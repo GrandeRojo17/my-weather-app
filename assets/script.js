@@ -6,7 +6,7 @@ $(document).ready(function () {
   if ("geolocation" in navigator) {
     console.log("Geo location Enabled");
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log("Your current location is " + JSON.stringify(position));
+      console.log("Your current location is safe and secure. ");
       // time = moment().valueOf(navigator.geolocation.timestamp);
       // console.log(moment(time));
     });
@@ -16,24 +16,28 @@ $(document).ready(function () {
 
   $("#search-button").on("click", function () {
     var searchTerm = $("#search-term").val();
+    //console log the search for anyone in the console :)
     console.log("We are searching for " + searchTerm);
+    //Clear the search box to reveal the placeholder.
     $("search-term").val("");
     searchWeather(searchTerm);
   });
+
   $(".history").on("click", "li", function () {
     searchWeather($(this).text());
   });
+
   function makeRow(text) {
     var li = $("<li>")
       .addClass("list-group-item list-group-item-action")
       .text(text);
     $(".history").append(li);
   }
-  $("#city-btn").on("click", function () {
-    let searchTerm = $("#city-btn").text();
-    // console.log("Gathering Weather data for" + searchTerm);
-    searchWeather(searchTerm);
-  });
+  // $("#city-btn").on("click", function () {
+  //   let searchTerm = $("#city-btn").text();
+
+  //   searchWeather(searchTerm);
+  // });
 
   function searchWeather(searchTerm) {
     //this is my current key
@@ -50,6 +54,13 @@ $(document).ready(function () {
       dataType: "json",
       success: function (res) {
         // console.log("The res for searchWeather is:" + JSON.stringify(res));
+
+        if (history.indexOf(searchTerm) === -1) {
+          history.push(searchTerm);
+          window.localStorage.setItem("history", JSON.stringify(history));
+
+          makeRow(searchTerm);
+        }
         $("#today").empty();
 
         let title = $("<h2>")
@@ -106,54 +117,66 @@ $(document).ready(function () {
 
     //create second api call for uv index, need lat and long
   }
-});
-// http://api.openweathermap.org/data/2.5/uvi/forecast?appid={appid}&lat={lat}&lon={lon}&cnt={cnt}
 
-function fiveDayForecast(searchTerm) {
-  var APIKey = "4283d387c93df34e548fe4d99a04d307";
-  // var queryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}`;
-  var queryURL2 = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${APIKey}&units=imperial`;
-  $.ajax({
-    type: "GET",
-    url: queryURL2,
+  // http://api.openweathermap.org/data/2.5/uvi/forecast?appid={appid}&lat={lat}&lon={lon}&cnt={cnt}
 
-    dataType: "json",
-    success: function (res) {
-      $("#fiveDay")
-        .html('<h4 class="mt-3">5-Day Forecast:</h4>')
-        .append('<div class="row">');
-      for (var i = 0; i < res.list.length; i++) {
-        // only look at forecasts around 3:00pm
-        if (res.list[i].dt_txt.indexOf("15:00:00") !== -1) {
-          // create html elements for a bootstrap card
-          var col = $("<div>").addClass("col-md-2");
-          var card = $("<div>").addClass("card bg-primary text-white");
-          var body = $("<div>").addClass("card-body p-2");
+  function fiveDayForecast(searchTerm) {
+    var APIKey = "4283d387c93df34e548fe4d99a04d307";
+    // var queryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}`;
+    var queryURL2 = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${APIKey}&units=imperial`;
+    $.ajax({
+      type: "GET",
+      url: queryURL2,
 
-          var title = $("<h5>")
-            .addClass("card-title")
-            .text(new Date(res.list[i].dt_txt).toLocaleDateString());
+      dataType: "json",
+      success: function (res) {
+        $("#fiveDay")
+          .html('<h4 class="mt-3">5-Day Forecast:</h4>')
+          .append('<div class="row">');
+        for (var i = 0; i < res.list.length; i++) {
+          // only look at forecasts around 3:00pm
+          if (res.list[i].dt_txt.indexOf("15:00:00") !== -1) {
+            // create html elements for a bootstrap card
+            var col = $("<div>").addClass("col-md-2");
+            var card = $("<div>").addClass("card bg-primary text-white");
+            var body = $("<div>").addClass("card-body p-2");
 
-          var img = $("<img>").attr(
-            "src",
-            "https://openweathermap.org/img/w/" +
-            res.list[i].weather[0].icon +
-            ".png"
-          );
+            var title = $("<h5>")
+              .addClass("card-title")
+              .text(new Date(res.list[i].dt_txt).toLocaleDateString());
 
-          var p1 = $("<p>")
-            .addClass("card-text")
-            .text("Temp: " + res.list[i].main.temp_max + " °F");
-          var p2 = $("<p>")
-            .addClass("card-text")
-            .text("Humidity: " + res.list[i].main.humidity + "%");
+            var img = $("<img>").attr(
+              "src",
+              "https://openweathermap.org/img/w/" +
+              res.list[i].weather[0].icon +
+              ".png"
+            );
 
-          // merge together and put on page
-          col.append(card.append(body.append(title, img, p1, p2)));
-          $("#fiveDay .row").append(col);
+            var p1 = $("<p>")
+              .addClass("card-text")
+              .text("Temp: " + res.list[i].main.temp_max + " °F");
+            var p2 = $("<p>")
+              .addClass("card-text")
+              .text("Humidity: " + res.list[i].main.humidity + "%");
+
+            // merge together and put on page
+            col.append(card.append(body.append(title, img, p1, p2)));
+            $("#fiveDay .row").append(col);
+          }
         }
-      }
-      // } //END OF FOR LOOP
-    },
-  });
-}
+        // } //END OF FOR LOOP
+      },
+    });
+  }
+
+  var history = JSON.parse(window.localStorage.getItem("history")) || [];
+
+  if (history.length > 0) {
+    searchWeather(history[history.length - 1]);
+  }
+
+  for (var i = 0; i < history.length; i++) {
+    makeRow(history[i]);
+  }
+});
+
