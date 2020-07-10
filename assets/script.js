@@ -125,9 +125,8 @@ $(document).ready(function () {
     // var queryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}`;
     var queryURL2 = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${APIKey}&units=imperial`;
     $.ajax({
-      type: "GET",
       url: queryURL2,
-
+      type: "GET",
       dataType: "json",
       success: function (res) {
         $("#fiveDay")
